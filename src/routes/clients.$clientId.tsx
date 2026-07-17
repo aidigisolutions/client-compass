@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Mail, Phone, Building2, CalendarDays, Trash2, ArrowLeft } from "lucide-react";
+import { Plus, Mail, Phone, Building2, CalendarDays, Trash2, ArrowLeft, Globe, Wallet, RefreshCw, UserCircle2 } from "lucide-react";
 import { StatusBadge } from "./dashboard";
 
 export const Route = createFileRoute("/clients/$clientId")({
@@ -77,8 +77,15 @@ function ClientDetail() {
                 <InfoRow icon={Mail} label={client.email ?? "—"} />
                 <InfoRow icon={Phone} label={client.phone ?? "—"} />
                 <InfoRow icon={Building2} label={client.company ?? "—"} />
+                <InfoRow icon={Globe} label={client.website ?? "—"} />
+                <InfoRow icon={Wallet} label={client.monthlyPackage ? `${client.monthlyPackage} / month` : "—"} />
+                <InfoRow icon={UserCircle2} label={client.assignedEmployee ?? "—"} />
                 <InfoRow icon={CalendarDays} label={`Since ${new Date(client.startDate).toLocaleDateString()}`} />
+                <InfoRow icon={RefreshCw} label={client.renewalDate ? `Renews ${new Date(client.renewalDate).toLocaleDateString()}` : "—"} />
               </div>
+              {client.clientNotes && (
+                <p className="mt-4 text-xs text-muted-foreground border-t border-border pt-3">{client.clientNotes}</p>
+              )}
             </div>
           </div>
         </div>
