@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as NotesRouteImport } from './routes/notes'
 import { Route as LoginRouteImport } from './routes/login'
@@ -22,6 +23,11 @@ import { Route as ClientsClientIdRouteImport } from './routes/clients.$clientId'
 const TasksRoute = TasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsRoute = ReportsRouteImport.update({
@@ -72,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/notes': typeof NotesRoute
   '/reports': typeof ReportsRoute
+  '/services': typeof ServicesRoute
   '/tasks': typeof TasksRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/clients/': typeof ClientsIndexRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/notes': typeof NotesRoute
   '/reports': typeof ReportsRoute
+  '/services': typeof ServicesRoute
   '/tasks': typeof TasksRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/clients': typeof ClientsIndexRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/notes': typeof NotesRoute
   '/reports': typeof ReportsRoute
+  '/services': typeof ServicesRoute
   '/tasks': typeof TasksRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/clients/': typeof ClientsIndexRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/notes'
     | '/reports'
+    | '/services'
     | '/tasks'
     | '/clients/$clientId'
     | '/clients/'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/notes'
     | '/reports'
+    | '/services'
     | '/tasks'
     | '/clients/$clientId'
     | '/clients'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/notes'
     | '/reports'
+    | '/services'
     | '/tasks'
     | '/clients/$clientId'
     | '/clients/'
@@ -142,6 +154,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   NotesRoute: typeof NotesRoute
   ReportsRoute: typeof ReportsRoute
+  ServicesRoute: typeof ServicesRoute
   TasksRoute: typeof TasksRoute
   ClientsClientIdRoute: typeof ClientsClientIdRoute
   ClientsIndexRoute: typeof ClientsIndexRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/tasks'
       fullPath: '/tasks'
       preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -222,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   NotesRoute: NotesRoute,
   ReportsRoute: ReportsRoute,
+  ServicesRoute: ServicesRoute,
   TasksRoute: TasksRoute,
   ClientsClientIdRoute: ClientsClientIdRoute,
   ClientsIndexRoute: ClientsIndexRoute,
