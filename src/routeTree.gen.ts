@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as PackageRouteImport } from './routes/package'
 import { Route as NotesRouteImport } from './routes/notes'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -33,6 +34,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackageRoute = PackageRouteImport.update({
+  id: '/package',
+  path: '/package',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotesRoute = NotesRouteImport.update({
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/notes': typeof NotesRoute
+  '/package': typeof PackageRoute
   '/reports': typeof ReportsRoute
   '/services': typeof ServicesRoute
   '/tasks': typeof TasksRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/notes': typeof NotesRoute
+  '/package': typeof PackageRoute
   '/reports': typeof ReportsRoute
   '/services': typeof ServicesRoute
   '/tasks': typeof TasksRoute
@@ -102,6 +110,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/notes': typeof NotesRoute
+  '/package': typeof PackageRoute
   '/reports': typeof ReportsRoute
   '/services': typeof ServicesRoute
   '/tasks': typeof TasksRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/notes'
+    | '/package'
     | '/reports'
     | '/services'
     | '/tasks'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/notes'
+    | '/package'
     | '/reports'
     | '/services'
     | '/tasks'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/notes'
+    | '/package'
     | '/reports'
     | '/services'
     | '/tasks'
@@ -153,6 +165,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   NotesRoute: typeof NotesRoute
+  PackageRoute: typeof PackageRoute
   ReportsRoute: typeof ReportsRoute
   ServicesRoute: typeof ServicesRoute
   TasksRoute: typeof TasksRoute
@@ -181,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/package': {
+      id: '/package'
+      path: '/package'
+      fullPath: '/package'
+      preLoaderRoute: typeof PackageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notes': {
@@ -241,6 +261,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   NotesRoute: NotesRoute,
+  PackageRoute: PackageRoute,
   ReportsRoute: ReportsRoute,
   ServicesRoute: ServicesRoute,
   TasksRoute: TasksRoute,

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2, Clock, ListTodo, TrendingUp, ArrowUpRight, Circle } from "lucide-react";
+import { CheckCircle2, Clock, ListTodo, TrendingUp, ArrowUpRight, Circle, Wallet, RefreshCw, Users as UsersIcon, Activity } from "lucide-react";
 import { AppShell, StatCard } from "@/components/app-shell";
 import { useCrm, crm } from "@/lib/crm-store";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -33,6 +33,17 @@ function Dashboard() {
     .sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 6);
 
+  const activeClients = state.clients.filter((c) => c.status === "active");
+  const packageRevenue = "₹60,000";
+  const upcomingRenewals = state.clients.filter((c) => {
+    if (!c.renewalDate) return false;
+    const days = Math.round((new Date(c.renewalDate).getTime() - Date.now()) / 86_400_000);
+    return days >= 0 && days <= 45;
+  }).length;
+  const recentActivity = [...state.tasks]
+    .filter((t) => t.status === "completed")
+    .slice(0, 5);
+
   return (
     <AppShell title="Dashboard" subtitle={`Welcome back. Here's your agency at a glance — ${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}.`}>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -40,6 +51,13 @@ function Dashboard() {
         <StatCard label="Completed" value={completed.length} hint="All time" accent="success" icon={CheckCircle2} />
         <StatCard label="Pending" value={pending.length} hint={`${inProgress.length} in progress`} accent="warning" icon={Clock} />
         <StatCard label="Monthly Progress" value={`${monthPct}%`} hint={`${monthCompleted} / ${monthTasks.length} tasks`} accent="info" icon={TrendingUp} />
+      </div>
+
+      <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard label="Active Clients" value={activeClients.length} hint="Currently engaged" accent="primary" icon={UsersIcon} />
+        <StatCard label="Monthly Revenue" value={packageRevenue} hint="Active packages" accent="success" icon={Wallet} />
+        <StatCard label="Package Value" value={packageRevenue} hint="Premium Digital Marketing" accent="info" icon={Wallet} />
+        <StatCard label="Upcoming Renewals" value={upcomingRenewals} hint="Within 45 days" accent="warning" icon={RefreshCw} />
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
@@ -128,6 +146,31 @@ function Dashboard() {
             );
           })}
         </div>
+      </div>
+
+      {/* Recent activity */}
+      <div className="mt-6 rounded-xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
+        <div className="flex items-center gap-2 mb-4">
+          <Activity className="h-4 w-4 text-muted-foreground" />
+          <h2 className="text-base font-semibold">Recent Activity</h2>
+        </div>
+        {recentActivity.length === 0 ? (
+          <div className="text-sm text-muted-foreground">No completed tasks yet.</div>
+        ) : (
+          <ul className="space-y-2">
+            {recentActivity.map((t) => {
+              const service = state.services.find((s) => s.id === t.serviceId);
+              return (
+                <li key={t.id} className="flex items-center gap-3 text-sm">
+                  <CheckCircle2 className="h-4 w-4 text-[oklch(0.5_0.17_155)] shrink-0" />
+                  <span className="flex-1 truncate">{t.title}</span>
+                  <span className="text-[11px] text-muted-foreground truncate">{service?.name}</span>
+                  <span className="text-[11px] text-muted-foreground shrink-0">{new Date(t.date).toLocaleDateString()}</span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </AppShell>
   );
