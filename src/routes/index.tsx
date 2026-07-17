@@ -1,24 +1,30 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { auth } from "@/lib/crm-store";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "AI DiGi Solutions CRM — Agency Operations Hub" },
+      { name: "description", content: "Modern CRM built for AI DiGi Solutions to manage clients, tasks, and campaigns across every service line." },
+      { property: "og:title", content: "AI DiGi Solutions CRM" },
+      { property: "og:description", content: "Client, task, and campaign management for AI DiGi Solutions." },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const navigate = useNavigate();
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    setReady(true);
+    navigate({ to: auth.isAuthed() ? "/dashboard" : "/login", replace: true });
+  }, [navigate]);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="text-sm text-muted-foreground">{ready ? "Redirecting…" : "Loading…"}</div>
     </div>
   );
 }
