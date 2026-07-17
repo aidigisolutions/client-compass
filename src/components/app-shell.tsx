@@ -10,6 +10,8 @@ import {
   LogOut,
   Sparkles,
   Search,
+  Layers,
+  Package,
 } from "lucide-react";
 import { auth } from "@/lib/crm-store";
 import { Button } from "@/components/ui/button";
@@ -19,6 +21,8 @@ import { cn } from "@/lib/utils";
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/clients", label: "Clients", icon: Users },
+  { to: "/services", label: "AI DiGi Services", icon: Layers },
+  { to: "/package", label: "Client Package", icon: Package },
   { to: "/tasks", label: "Tasks", icon: ListChecks },
   { to: "/calendar", label: "Calendar", icon: CalendarDays },
   { to: "/notes", label: "Notes", icon: StickyNote },
