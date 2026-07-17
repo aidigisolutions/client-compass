@@ -51,7 +51,7 @@ export interface CrmState {
   notes: Note[];
 }
 
-const STORAGE_KEY = "aidigi-crm-state-v1";
+const STORAGE_KEY = "aidigi-crm-state-v2";
 
 function uid() {
   return Math.random().toString(36).slice(2, 10);
