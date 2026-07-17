@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ClientsIndexRouteImport } from './routes/clients.index'
 import { Route as ClientsClientIdRouteImport } from './routes/clients.$clientId'
 
+const TasksRoute = TasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
+  '/tasks': typeof TasksRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/clients/': typeof ClientsIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
+  '/tasks': typeof TasksRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/clients': typeof ClientsIndexRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
+  '/tasks': typeof TasksRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/clients/': typeof ClientsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/clients/$clientId' | '/clients/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/tasks'
+    | '/clients/$clientId'
+    | '/clients/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/login' | '/clients/$clientId' | '/clients'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/tasks'
+    | '/clients/$clientId'
+    | '/clients'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/login'
+    | '/tasks'
     | '/clients/$clientId'
     | '/clients/'
   fileRoutesById: FileRoutesById
@@ -81,12 +103,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
+  TasksRoute: typeof TasksRoute
   ClientsClientIdRoute: typeof ClientsClientIdRoute
   ClientsIndexRoute: typeof ClientsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -129,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
+  TasksRoute: TasksRoute,
   ClientsClientIdRoute: ClientsClientIdRoute,
   ClientsIndexRoute: ClientsIndexRoute,
 }
