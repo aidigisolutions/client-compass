@@ -3,7 +3,6 @@ import { CheckCircle2, Clock, ListTodo, TrendingUp, ArrowUpRight, Circle } from 
 import { AppShell, StatCard } from "@/components/app-shell";
 import { useCrm, crm } from "@/lib/crm-store";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — AI DiGi CRM" }] }),
