@@ -34,6 +34,11 @@ export interface Client {
   email?: string;
   phone?: string;
   company?: string;
+  website?: string;
+  monthlyPackage?: string;
+  renewalDate?: string;
+  assignedEmployee?: string;
+  clientNotes?: string;
   status: "active" | "paused" | "archived";
   startDate: string;
   avatarColor: string;
@@ -62,21 +67,25 @@ function buildSeed(): CrmState {
     id: clientId,
     name: "Hrishi Tatva",
     company: "Hrishi Tatva",
-    email: "contact@hrishitatva.com",
-    phone: "+91 90000 00000",
+    email: "hrishitatva@gmail.com",
+    phone: "+91 8521513057",
+    website: "https://hrishitatva.in",
+    monthlyPackage: "₹60,000",
+    renewalDate: "2026-08-20",
+    assignedEmployee: "Megha Kumari",
+    clientNotes: "Monthly Digital Marketing Client.",
     status: "active",
-    startDate: "2026-07-17",
+    startDate: "2026-07-20",
     avatarColor: "oklch(0.62 0.22 290)",
   };
 
   const serviceDefs = [
-    { name: "Shopify Website", color: "oklch(0.65 0.19 155)" },
-    { name: "Meta Ads", color: "oklch(0.58 0.22 260)" },
-    { name: "Google Ads", color: "oklch(0.7 0.2 30)" },
-    { name: "SEO", color: "oklch(0.62 0.2 200)" },
-    { name: "Google Business Profile", color: "oklch(0.72 0.18 90)" },
-    { name: "Amazon", color: "oklch(0.7 0.2 55)" },
-    { name: "Social Media", color: "oklch(0.62 0.22 320)" },
+    { name: "Shopify Website Management", color: "oklch(0.65 0.19 155)" },
+    { name: "Amazon Account Management", color: "oklch(0.7 0.2 55)" },
+    { name: "Social Media Management", color: "oklch(0.62 0.22 320)" },
+    { name: "Meta Ads Management", color: "oklch(0.58 0.22 260)" },
+    { name: "Google Business Profile Management", color: "oklch(0.72 0.18 90)" },
+    { name: "Monthly Marketing Strategy", color: "oklch(0.62 0.2 200)" },
   ];
   const services: Service[] = serviceDefs.map((s) => ({
     id: s.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
@@ -102,7 +111,7 @@ function buildSeed(): CrmState {
   ];
 
   const tasks: Task[] = [];
-  const start = new Date("2026-07-17T00:00:00");
+  const start = new Date("2026-07-20T00:00:00");
   shopifyTasksByDay.forEach((dayTasks, dayOffset) => {
     const d = new Date(start);
     d.setDate(start.getDate() + dayOffset);
@@ -125,15 +134,15 @@ function buildSeed(): CrmState {
     {
       id: uid(),
       clientId,
-      title: "Brand direction",
-      body: "Warm, earthy palette. Focus on artisanal storytelling and craftsmanship.",
+      title: "Engagement summary",
+      body: "Monthly Digital Marketing Client. Package ₹60,000/month covering Shopify, Amazon, Social Media, Meta Ads, GBP, and Monthly Marketing Strategy.",
       createdAt: new Date().toISOString(),
     },
     {
       id: uid(),
       clientId,
-      title: "Launch target",
-      body: "Soft-launch by end of July, full marketing push in August across Meta + Google.",
+      title: "Renewal reminder",
+      body: "Project started 20 July 2026. Renewal due 20 August 2026. Assigned: Megha Kumari.",
       createdAt: new Date().toISOString(),
     },
   ];
