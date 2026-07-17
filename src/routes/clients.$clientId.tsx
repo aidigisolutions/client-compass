@@ -47,7 +47,7 @@ function ClientDetail() {
 
   function handleAdd() {
     if (!newTask.trim() || !activeService) return;
-    crm.addTask({ clientId: client.id, serviceId: activeService, title: newTask.trim(), date: newDate });
+    crm.addTask({ clientId: client!.id, serviceId: activeService, title: newTask.trim(), date: newDate });
     setNewTask("");
   }
 
