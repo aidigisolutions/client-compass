@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode, type ComponentType } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard,
@@ -148,7 +148,7 @@ export function StatCard({ label, value, hint, accent, icon: Icon }: {
   value: string | number;
   hint?: string;
   accent?: "primary" | "success" | "warning" | "info";
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: ComponentType<{ className?: string }>;
 }) {
   const bg =
     accent === "success" ? "oklch(0.65 0.17 155 / 0.12)" :

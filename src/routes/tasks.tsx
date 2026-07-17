@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { AppShell } from "@/components/app-shell";
 import { useCrm, crm, type TaskStatus } from "@/lib/crm-store";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -91,7 +91,7 @@ function TasksBoard() {
   );
 }
 
-function FilterChip({ active, onClick, children, color }: { active: boolean; onClick: () => void; children: React.ReactNode; color?: string }) {
+function FilterChip({ active, onClick, children, color }: { active: boolean; onClick: () => void; children: ReactNode; color?: string }) {
   return (
     <button
       onClick={onClick}

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import { AppShell } from "@/components/app-shell";
 import { useCrm, crm, type TaskStatus } from "@/lib/crm-store";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -207,7 +207,7 @@ function ClientDetail() {
   );
 }
 
-function InfoRow({ icon: Icon, label }: { icon: React.ComponentType<{ className?: string }>; label: string }) {
+function InfoRow({ icon: Icon, label }: { icon: ComponentType<{ className?: string }>; label: string }) {
   return (
     <div className="flex items-center gap-2 text-muted-foreground">
       <Icon className="h-3.5 w-3.5" />
