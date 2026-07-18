@@ -36,8 +36,8 @@ const PACKAGE = {
   services: [
     "Shopify Website Management",
     "Amazon Account Management",
-    "Social Media Management",
     "Meta Ads Management",
+    "Social Media Management",
     "Google Business Profile Management",
     "Monthly Marketing Strategy",
   ],
@@ -45,6 +45,32 @@ const PACKAGE = {
     { period: "Jun 2026 – Jul 2026", value: "₹60,000", status: "Completed" },
     { period: "May 2026 – Jun 2026", value: "₹60,000", status: "Completed" },
   ],
+};
+
+const SETUP = {
+  status: "In Progress" as const,
+  description:
+    "The website is currently under development and needs to be professionally completed before starting monthly maintenance. This section represents all one-time implementation work.",
+  charge: "₹45,000",
+  startDate: "2026-07-20",
+  expectedCompletion: "2026-08-15",
+  paymentStatus: "50% Advance Received",
+  clientApproval: "Pending Final Sign-off",
+  completion: 40,
+  remarks: "Shopify theme configured. Products and payment gateway pending.",
+};
+
+const RECURRING = {
+  status: "Not Started" as const,
+  description:
+    "Monthly management will begin only after the One-Time Setup Project has been completed and approved. This section represents recurring monthly digital marketing services.",
+  monthlyPackage: "₹60,000 / Month",
+  monthlyStart: "2026-08-20",
+  renewalDate: "2026-09-20",
+  progress: 0,
+  monthlyReport: "Not yet generated",
+  monthlyPerformance: "Awaiting kickoff",
+  paymentStatus: "Not Started",
 };
 
 function daysBetween(a: Date, b: Date) {
