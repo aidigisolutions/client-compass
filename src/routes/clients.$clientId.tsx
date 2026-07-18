@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, type ComponentType } from "react";
+import { useState, useEffect, type ComponentType } from "react";
 import { AppShell } from "@/components/app-shell";
 import { useCrm, crm, type TaskStatus } from "@/lib/crm-store";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -50,10 +50,9 @@ function ClientDetail() {
   const remainingDays = Math.max(0, Math.ceil((projectEnd.getTime() - today0.getTime()) / 86_400_000));
 
   // Guard: if recurring locked and user is on recurring tab, force setup
-  if (recurringLocked && activeMode === "recurring") {
-    // don't render recurring tasks; toggle back silently in effect-less way
-    setTimeout(() => setActiveMode("setup"), 0);
-  }
+  useEffect(() => {
+    if (recurringLocked && activeMode === "recurring") setActiveMode("setup");
+  }, [recurringLocked, activeMode]);
 
   const svcTasks = state.tasks
     .filter((t) => {
