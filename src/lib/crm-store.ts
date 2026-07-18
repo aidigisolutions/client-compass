@@ -11,6 +11,7 @@ export interface Task {
   date: string; // YYYY-MM-DD
   status: TaskStatus;
   createdAt: string;
+  taskType?: "setup" | "recurring";
 }
 
 export interface Service {
@@ -32,12 +33,14 @@ export interface Client {
   id: string;
   name: string;
   email?: string;
+  secondaryEmail?: string;
   phone?: string;
   company?: string;
   website?: string;
   monthlyPackage?: string;
   renewalDate?: string;
   assignedEmployee?: string;
+  team?: { name: string; role: string; status?: string }[];
   clientNotes?: string;
   status: "active" | "paused" | "archived";
   startDate: string;
@@ -52,6 +55,7 @@ export interface CrmState {
 }
 
 const STORAGE_KEY = "aidigi-crm-state-v2";
+const STORAGE_KEY_V3 = "aidigi-crm-state-v3";
 
 function uid() {
   return Math.random().toString(36).slice(2, 10);
@@ -67,12 +71,18 @@ function buildSeed(): CrmState {
     id: clientId,
     name: "Hrishi Tatva",
     company: "Hrishi Tatva",
-    email: "hrishitatva@gmail.com",
-    phone: "+91 8521513057",
+    email: "support@hrishitatva.in",
+    secondaryEmail: "hrishitatva@gmail.com",
+    phone: "+91 7834974917",
     website: "https://hrishitatva.in",
     monthlyPackage: "₹60,000",
     renewalDate: "2026-08-20",
     assignedEmployee: "Megha Kumari",
+    team: [
+      { name: "Megha Kumari", role: "Owner", status: "Active" },
+      { name: "Ankit", role: "Marketing Manager", status: "Active" },
+      { name: "Kamal", role: "Designer & Developer", status: "Active" },
+    ],
     clientNotes: "Monthly Digital Marketing Client.",
     status: "active",
     startDate: "2026-07-20",
@@ -82,8 +92,8 @@ function buildSeed(): CrmState {
   const serviceDefs = [
     { name: "Shopify Website Management", color: "oklch(0.65 0.19 155)" },
     { name: "Amazon Account Management", color: "oklch(0.7 0.2 55)" },
-    { name: "Social Media Management", color: "oklch(0.62 0.22 320)" },
     { name: "Meta Ads Management", color: "oklch(0.58 0.22 260)" },
+    { name: "Social Media Management", color: "oklch(0.62 0.22 320)" },
     { name: "Google Business Profile Management", color: "oklch(0.72 0.18 90)" },
     { name: "Monthly Marketing Strategy", color: "oklch(0.62 0.2 200)" },
   ];
@@ -125,6 +135,7 @@ function buildSeed(): CrmState {
         title,
         date: iso(d),
         status,
+        taskType: "setup",
         createdAt: new Date().toISOString(),
       });
     });
@@ -153,10 +164,12 @@ function buildSeed(): CrmState {
 function load(): CrmState {
   if (typeof window === "undefined") return buildSeed();
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    // migrate: force reseed for v3 profile update
+    const raw = window.localStorage.getItem(STORAGE_KEY_V3);
     if (!raw) {
       const seed = buildSeed();
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seed));
+      window.localStorage.setItem(STORAGE_KEY_V3, JSON.stringify(seed));
+      window.localStorage.removeItem(STORAGE_KEY);
       return seed;
     }
     return JSON.parse(raw) as CrmState;
@@ -170,7 +183,7 @@ const listeners = new Set<() => void>();
 
 function persist() {
   if (typeof window !== "undefined") {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    window.localStorage.setItem(STORAGE_KEY_V3, JSON.stringify(state));
   }
   listeners.forEach((l) => l());
 }
@@ -194,7 +207,10 @@ export function useCrm() {
 
 export const crm = {
   reset() {
-    if (typeof window !== "undefined") window.localStorage.removeItem(STORAGE_KEY);
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(STORAGE_KEY);
+      window.localStorage.removeItem(STORAGE_KEY_V3);
+    }
     state = load();
     persist();
   },

@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Mail, Phone, Building2, CalendarDays, Trash2, ArrowLeft, Globe, Wallet, RefreshCw, UserCircle2 } from "lucide-react";
+import { Plus, Mail, Phone, Building2, CalendarDays, Trash2, ArrowLeft, Globe, Wallet, RefreshCw, UserCircle2, Users, AtSign } from "lucide-react";
 import { StatusBadge } from "./dashboard";
 
 export const Route = createFileRoute("/clients/$clientId")({
@@ -21,6 +21,7 @@ function ClientDetail() {
   const client = state.clients.find((c) => c.id === clientId);
   const services = state.services.filter((s) => s.clientId === clientId);
   const [activeService, setActiveService] = useState<string>(services[0]?.id ?? "");
+  const [activeMode, setActiveMode] = useState<"setup" | "recurring">("setup");
   const [newTask, setNewTask] = useState("");
   const [newDate, setNewDate] = useState(new Date().toISOString().slice(0, 10));
 
@@ -33,7 +34,11 @@ function ClientDetail() {
   }
 
   const svcTasks = state.tasks
-    .filter((t) => t.clientId === client.id && t.serviceId === activeService)
+    .filter((t) => {
+      if (t.clientId !== client.id || t.serviceId !== activeService) return false;
+      const tt = t.taskType ?? "setup";
+      return tt === activeMode;
+    })
     .sort((a, b) => a.date.localeCompare(b.date));
 
   const monthPrefix = new Date().toISOString().slice(0, 7);
@@ -47,7 +52,7 @@ function ClientDetail() {
 
   function handleAdd() {
     if (!newTask.trim() || !activeService) return;
-    crm.addTask({ clientId: client!.id, serviceId: activeService, title: newTask.trim(), date: newDate });
+    crm.addTask({ clientId: client!.id, serviceId: activeService, title: newTask.trim(), date: newDate, taskType: activeMode });
     setNewTask("");
   }
 
@@ -74,13 +79,13 @@ function ClientDetail() {
                 <span className="text-[10px] uppercase font-medium tracking-wider px-1.5 py-0.5 rounded bg-[oklch(0.65_0.17_155_/_0.15)] text-[oklch(0.45_0.17_155)]">{client.status}</span>
               </div>
               <div className="mt-3 grid gap-2 sm:grid-cols-2 text-sm">
-                <InfoRow icon={Mail} label={client.email ?? "—"} />
-                <InfoRow icon={Phone} label={client.phone ?? "—"} />
                 <InfoRow icon={Building2} label={client.company ?? "—"} />
                 <InfoRow icon={Globe} label={client.website ?? "—"} />
-                <InfoRow icon={Wallet} label={client.monthlyPackage ? `${client.monthlyPackage} / month` : "—"} />
-                <InfoRow icon={UserCircle2} label={client.assignedEmployee ?? "—"} />
-                <InfoRow icon={CalendarDays} label={`Since ${new Date(client.startDate).toLocaleDateString()}`} />
+                <InfoRow icon={Phone} label={client.phone ?? "—"} />
+                <InfoRow icon={Mail} label={client.email ?? "—"} />
+                <InfoRow icon={AtSign} label={client.secondaryEmail ?? "—"} />
+                <InfoRow icon={Wallet} label={client.monthlyPackage ? `${client.monthlyPackage} / Month` : "—"} />
+                <InfoRow icon={CalendarDays} label={`Client Since ${new Date(client.startDate).toLocaleDateString()}`} />
                 <InfoRow icon={RefreshCw} label={client.renewalDate ? `Renews ${new Date(client.renewalDate).toLocaleDateString()}` : "—"} />
               </div>
               {client.clientNotes && (
@@ -99,11 +104,45 @@ function ClientDetail() {
         </div>
       </div>
 
+      {/* Assigned Team */}
+      {client.team && client.team.length > 0 && (
+        <div className="rounded-xl border border-border bg-card p-6 mb-6" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div className="flex items-center gap-2 mb-4">
+            <Users className="h-4 w-4 text-muted-foreground" />
+            <h3 className="text-base font-semibold">Assigned Team</h3>
+            <span className="text-xs text-muted-foreground">· {client.team.length} members</span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {client.team.map((m) => {
+              const initials = m.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+              return (
+                <div key={m.name} className="flex items-center gap-3 rounded-lg border border-border/60 p-3">
+                  <div
+                    className="h-11 w-11 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
+                    style={{ background: "var(--gradient-primary)" }}
+                  >
+                    {initials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-semibold truncate">{m.name}</div>
+                    <div className="text-xs text-muted-foreground truncate">{m.role}</div>
+                  </div>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[oklch(0.65_0.17_155_/_0.15)] text-[oklch(0.45_0.17_155)] px-2 py-0.5 text-[10px] font-semibold">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.5_0.17_155)]" />
+                    {m.status ?? "Active"}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Services & tasks */}
       <div className="rounded-xl border border-border bg-card" style={{ boxShadow: "var(--shadow-card)" }}>
         <div className="border-b border-border p-6 pb-0">
           <h3 className="text-base font-semibold">Services & Daily Tasks</h3>
-          <p className="text-xs text-muted-foreground mt-0.5 mb-4">Track daily work per service line.</p>
+          <p className="text-xs text-muted-foreground mt-0.5 mb-4">Each service has a One-Time Setup workspace and a Recurring Monthly workspace.</p>
           <Tabs value={activeService} onValueChange={setActiveService}>
             <TabsList className="h-auto flex-wrap justify-start bg-transparent p-0 gap-1">
               {services.map((s) => {
@@ -124,9 +163,32 @@ function ClientDetail() {
         </div>
 
         <div className="p-6">
+          {/* Setup vs Recurring workspace tabs */}
+          <div className="mb-5 inline-flex rounded-lg border border-border bg-muted/40 p-1">
+            {(["setup", "recurring"] as const).map((mode) => (
+              <button
+                key={mode}
+                onClick={() => setActiveMode(mode)}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition ${
+                  activeMode === mode
+                    ? "bg-card text-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {mode === "setup" ? "One-Time Setup" : "Recurring Monthly Tasks"}
+              </button>
+            ))}
+          </div>
+
           {/* Add task */}
           <div className="flex flex-col sm:flex-row gap-2 mb-6">
-            <Input placeholder="Add a task…" value={newTask} onChange={(e) => setNewTask(e.target.value)} onKeyDown={(e) => e.key === "Enter" && handleAdd()} className="flex-1" />
+            <Input
+              placeholder={activeMode === "setup" ? "Add a one-time setup task…" : "Add a recurring monthly task…"}
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleAdd()}
+              className="flex-1"
+            />
             <Input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} className="sm:w-44" />
             <Button onClick={handleAdd} className="gap-1.5" style={{ background: "var(--gradient-primary)" }}><Plus className="h-4 w-4" /> Add</Button>
           </div>

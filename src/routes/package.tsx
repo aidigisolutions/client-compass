@@ -36,8 +36,8 @@ const PACKAGE = {
   services: [
     "Shopify Website Management",
     "Amazon Account Management",
-    "Social Media Management",
     "Meta Ads Management",
+    "Social Media Management",
     "Google Business Profile Management",
     "Monthly Marketing Strategy",
   ],
@@ -45,6 +45,32 @@ const PACKAGE = {
     { period: "Jun 2026 – Jul 2026", value: "₹60,000", status: "Completed" },
     { period: "May 2026 – Jun 2026", value: "₹60,000", status: "Completed" },
   ],
+};
+
+const SETUP = {
+  status: "In Progress" as const,
+  description:
+    "The website is currently under development and needs to be professionally completed before starting monthly maintenance. This section represents all one-time implementation work.",
+  charge: "₹45,000",
+  startDate: "2026-07-20",
+  expectedCompletion: "2026-08-15",
+  paymentStatus: "50% Advance Received",
+  clientApproval: "Pending Final Sign-off",
+  completion: 40,
+  remarks: "Shopify theme configured. Products and payment gateway pending.",
+};
+
+const RECURRING = {
+  status: "Not Started" as const,
+  description:
+    "Monthly management will begin only after the One-Time Setup Project has been completed and approved. This section represents recurring monthly digital marketing services.",
+  monthlyPackage: "₹60,000 / Month",
+  monthlyStart: "2026-08-20",
+  renewalDate: "2026-09-20",
+  progress: 0,
+  monthlyReport: "Not yet generated",
+  monthlyPerformance: "Awaiting kickoff",
+  paymentStatus: "Not Started",
 };
 
 function daysBetween(a: Date, b: Date) {
@@ -153,6 +179,80 @@ function PackagePage() {
         </div>
       </div>
 
+      {/* Package Structure: two sections */}
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        {/* Section 1: One-Time Project Setup */}
+        <section className="rounded-xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Section 1</div>
+              <h2 className="text-lg font-bold mt-0.5">One-Time Project Setup</h2>
+            </div>
+            <span className="inline-flex items-center gap-1 rounded-full bg-[oklch(0.7_0.16_75_/_0.18)] text-[oklch(0.45_0.16_75)] px-2.5 py-1 text-[11px] font-semibold">
+              <Clock className="h-3 w-3" /> {SETUP.status}
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{SETUP.description}</p>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <PkgField label="One-Time Setup Charge" value={SETUP.charge} />
+            <PkgField label="Payment Status" value={SETUP.paymentStatus} />
+            <PkgField label="Setup Start Date" value={new Date(SETUP.startDate).toLocaleDateString()} />
+            <PkgField label="Expected Completion" value={new Date(SETUP.expectedCompletion).toLocaleDateString()} />
+            <PkgField label="Client Approval" value={SETUP.clientApproval} />
+            <PkgField label="Setup Progress" value={`${SETUP.completion}%`} />
+          </div>
+
+          <div className="mt-5">
+            <div className="flex items-center justify-between text-xs mb-2">
+              <span className="font-medium">Setup Completion</span>
+              <span className="text-muted-foreground">{SETUP.completion}%</span>
+            </div>
+            <div className="h-2 rounded-full bg-muted overflow-hidden">
+              <div className="h-full rounded-full" style={{ width: `${SETUP.completion}%`, background: "var(--gradient-primary)" }} />
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-lg border border-border/60 bg-muted/30 p-3">
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Remarks</div>
+            <div className="text-xs">{SETUP.remarks}</div>
+          </div>
+        </section>
+
+        {/* Section 2: Recurring Monthly Management */}
+        <section className="rounded-xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Section 2</div>
+              <h2 className="text-lg font-bold mt-0.5">Recurring Monthly Management</h2>
+            </div>
+            <span className="inline-flex items-center gap-1 rounded-full bg-muted text-muted-foreground px-2.5 py-1 text-[11px] font-semibold">
+              <Clock className="h-3 w-3" /> {RECURRING.status}
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-3 leading-relaxed">{RECURRING.description}</p>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <PkgField label="Monthly Package" value={RECURRING.monthlyPackage} />
+            <PkgField label="Payment Status" value={RECURRING.paymentStatus} />
+            <PkgField label="Monthly Start Date" value={new Date(RECURRING.monthlyStart).toLocaleDateString()} />
+            <PkgField label="Renewal Date" value={new Date(RECURRING.renewalDate).toLocaleDateString()} />
+            <PkgField label="Monthly Report" value={RECURRING.monthlyReport} />
+            <PkgField label="Monthly Performance" value={RECURRING.monthlyPerformance} />
+          </div>
+
+          <div className="mt-5">
+            <div className="flex items-center justify-between text-xs mb-2">
+              <span className="font-medium">Monthly Progress</span>
+              <span className="text-muted-foreground">{RECURRING.progress}%</span>
+            </div>
+            <div className="h-2 rounded-full bg-muted overflow-hidden">
+              <div className="h-full rounded-full" style={{ width: `${RECURRING.progress}%`, background: "oklch(0.65 0.17 155)" }} />
+            </div>
+          </div>
+        </section>
+      </div>
+
       {/* History */}
       <div className="mt-6 rounded-xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
         <div className="flex items-center gap-2 mb-4">
@@ -198,6 +298,15 @@ function InfoRow({
         <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
         <div className={`text-sm font-semibold truncate ${tone === "success" ? "text-[oklch(0.45_0.17_155)]" : ""}`}>{value}</div>
       </div>
+    </div>
+  );
+}
+
+function PkgField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-border/60 px-3 py-2.5">
+      <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
+      <div className="text-sm font-semibold mt-0.5">{value}</div>
     </div>
   );
 }
