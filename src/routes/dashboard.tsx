@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2, Clock, ListTodo, TrendingUp, ArrowUpRight, Circle, Wallet, RefreshCw, Users as UsersIcon, Activity } from "lucide-react";
+import type { ComponentType } from "react";
+import { CheckCircle2, Clock, ListTodo, TrendingUp, ArrowUpRight, Circle, Wallet, RefreshCw, Users as UsersIcon, Activity, Rocket, Timer, ArrowRight } from "lucide-react";
 import { AppShell, StatCard } from "@/components/app-shell";
 import { useCrm, crm } from "@/lib/crm-store";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -44,6 +45,21 @@ function Dashboard() {
     .filter((t) => t.status === "completed")
     .slice(0, 5);
 
+  // Shopify one-time setup project overview
+  const shopifySvc = state.services.find((s) => s.name === "Shopify Website Management");
+  const shopifyTasks = shopifySvc
+    ? state.tasks.filter((t) => t.serviceId === shopifySvc.id && (t.taskType ?? "setup") === "setup")
+    : [];
+  const shopifyDone = shopifyTasks.filter((t) => t.status === "completed").length;
+  const shopifyPct = shopifyTasks.length ? Math.round((shopifyDone / shopifyTasks.length) * 100) : 0;
+  const shopifyPending = shopifyTasks.length - shopifyDone;
+  const projectEnd = new Date("2026-08-08T00:00:00");
+  const today0 = new Date(); today0.setHours(0,0,0,0);
+  const remainingDays = Math.max(0, Math.ceil((projectEnd.getTime() - today0.getTime()) / 86_400_000));
+  const nextTask = [...shopifyTasks]
+    .filter((t) => t.status !== "completed")
+    .sort((a, b) => a.date.localeCompare(b.date))[0];
+
   return (
     <AppShell title="Dashboard" subtitle={`Welcome back. Here's your agency at a glance — ${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}.`}>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -59,6 +75,45 @@ function Dashboard() {
         <StatCard label="Package Value" value={packageRevenue} hint="Premium Digital Marketing" accent="info" icon={Wallet} />
         <StatCard label="Upcoming Renewals" value={upcomingRenewals} hint="Within 45 days" accent="warning" icon={RefreshCw} />
       </div>
+
+      {/* Shopify One-Time Project Snapshot */}
+      {shopifySvc && (
+        <div className="mt-6 rounded-xl border border-border bg-card p-6" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-2">
+              <div className="h-9 w-9 rounded-lg flex items-center justify-center text-white" style={{ background: "var(--gradient-primary)" }}>
+                <Rocket className="h-4 w-4" />
+              </div>
+              <div>
+                <h2 className="text-base font-semibold">One-Time Shopify Website Setup</h2>
+                <p className="text-xs text-muted-foreground">Hrishi Tatva · 20 Jul → 8 Aug 2026 · {shopifyPct === 100 ? "Completed" : "In Progress"}</p>
+              </div>
+            </div>
+            <Link to="/clients/$clientId" params={{ clientId: "hrishi-tatva" }} className="text-xs font-medium text-primary hover:underline flex items-center gap-1">
+              Open workspace <ArrowUpRight className="h-3 w-3" />
+            </Link>
+          </div>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <MiniStat icon={TrendingUp} label="Project Progress" value={`${shopifyPct}%`} hint={`${shopifyDone}/${shopifyTasks.length} tasks`} />
+            <MiniStat icon={Clock} label="Pending Tasks" value={shopifyPending} hint="Setup backlog" />
+            <MiniStat icon={Timer} label="Remaining Days" value={remainingDays} hint="Until 8 Aug 2026" />
+            <MiniStat icon={CheckCircle2} label="Completion" value={`${shopifyPct}%`} hint={shopifyPct === 100 ? "Ready to launch" : "Keep going"} />
+          </div>
+          <div className="mt-4 h-2 rounded-full bg-muted overflow-hidden">
+            <div className="h-full rounded-full transition-all" style={{ width: `${shopifyPct}%`, background: "var(--gradient-primary)" }} />
+          </div>
+          {nextTask && (
+            <div className="mt-4 flex items-center gap-3 rounded-lg border border-dashed border-border px-3 py-2.5">
+              <ArrowRight className="h-4 w-4 text-primary" />
+              <div className="min-w-0 flex-1">
+                <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Next Task</div>
+                <div className="text-sm font-medium truncate">{nextTask.title}</div>
+              </div>
+              <span className="text-[11px] text-muted-foreground shrink-0">{new Date(nextTask.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         {/* Today's tasks */}
@@ -184,4 +239,16 @@ export function StatusBadge({ status }: { status: "todo" | "in_progress" | "comp
   } as const;
   const s = map[status];
   return <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium ${s.cls}`}>{s.label}</span>;
+}
+
+function MiniStat({ icon: Icon, label, value, hint }: { icon: ComponentType<{ className?: string }>; label: string; value: string | number; hint?: string }) {
+  return (
+    <div className="rounded-lg border border-border/60 p-3">
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
+        <Icon className="h-3 w-3" /> {label}
+      </div>
+      <div className="mt-1 text-xl font-bold">{value}</div>
+      {hint && <div className="text-[11px] text-muted-foreground">{hint}</div>}
+    </div>
+  );
 }
