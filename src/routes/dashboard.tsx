@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { ComponentType } from "react";
 import { CheckCircle2, Clock, ListTodo, TrendingUp, ArrowUpRight, Circle, Wallet, RefreshCw, Users as UsersIcon, Activity, Rocket, Timer, ArrowRight } from "lucide-react";
 import { AppShell, StatCard } from "@/components/app-shell";
 import { useCrm, crm } from "@/lib/crm-store";
@@ -240,7 +241,7 @@ export function StatusBadge({ status }: { status: "todo" | "in_progress" | "comp
   return <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium ${s.cls}`}>{s.label}</span>;
 }
 
-function MiniStat({ icon: Icon, label, value, hint }: { icon: React.ComponentType<{ className?: string }>; label: string; value: string | number; hint?: string }) {
+function MiniStat({ icon: Icon, label, value, hint }: { icon: ComponentType<{ className?: string }>; label: string; value: string | number; hint?: string }) {
   return (
     <div className="rounded-lg border border-border/60 p-3">
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-muted-foreground">
