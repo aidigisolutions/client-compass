@@ -1,6 +1,8 @@
 import './globals.css'
 import { Inter, Poppins } from 'next/font/google'
 import { Providers } from './providers'
+import { FloatingActions } from '@/components/site/FloatingActions'
+import { COMPANY, SEO } from '@/lib/data/site'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -16,33 +18,76 @@ const poppins = Poppins({
 })
 
 export const metadata = {
-  metadataBase: new URL('https://argbuildtech.com'),
+  metadataBase: new URL(SEO.siteUrl),
   title: {
-    default: 'ARG Buildtech | Premium Residential & Commercial Properties',
+    default: SEO.title,
     template: '%s | ARG Buildtech',
   },
-  description:
-    'ARG Buildtech is a trusted real estate developer offering premium residential and commercial properties at the best locations across India. Find your dream home today.',
-  keywords: [
-    'ARG Buildtech', 'real estate', 'luxury apartments', 'premium properties',
-    'buy property', 'rent property', 'residential', 'commercial', 'book site visit',
-  ],
+  description: SEO.description,
+  keywords: SEO.keywords,
+  alternates: { canonical: '/' },
+  authors: [{ name: 'ARG Buildtech' }],
+  creator: 'ARG Buildtech',
   openGraph: {
-    title: 'ARG Buildtech | Premium Real Estate',
-    description: 'Discover premium residential and commercial properties at the best locations.',
+    title: SEO.title,
+    description: SEO.description,
+    url: SEO.siteUrl,
     type: 'website',
     siteName: 'ARG Buildtech',
+    locale: 'en_IN',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: SEO.title,
+    description: SEO.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+}
+
+export const viewport = {
+  themeColor: '#F97316',
+  width: 'device-width',
+  initialScale: 1,
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'RealEstateAgent',
+  name: COMPANY.name,
+  description: SEO.description,
+  url: SEO.siteUrl,
+  telephone: COMPANY.phone,
+  email: COMPANY.email,
+  foundingDate: String(COMPANY.founded),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: COMPANY.address,
+    addressCountry: 'IN',
+  },
+  sameAs: Object.values(COMPANY.social).filter(Boolean),
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://images.pexels.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.pexels.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <script dangerouslySetInnerHTML={{__html:'window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);'}} />
       </head>
       <body>
         <Providers>{children}</Providers>
+        <FloatingActions />
       </body>
     </html>
   )

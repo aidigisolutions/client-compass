@@ -9,19 +9,28 @@ import { Sheet, SheetContent, SheetTrigger, SheetClose, SheetTitle } from '@/com
 import { NAV_LINKS, COMPANY } from '@/lib/data/site'
 
 function Logo({ dark }) {
+  const parts = COMPANY.name.split(' ')
+  const first = parts.slice(0, -1).join(' ') || parts[0]
+  const last = parts.length > 1 ? parts[parts.length - 1] : ''
   return (
     <Link href="/" className="flex items-center gap-2.5 group">
-      <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand text-white shadow-glow transition-transform group-hover:scale-105">
-        <Building2 className="h-6 w-6" strokeWidth={2.2} />
-      </span>
-      <span className="flex flex-col leading-none">
-        <span className={`font-display text-xl font-extrabold tracking-tight ${dark ? 'text-white' : 'text-ink'}`}>
-          ARG <span className="text-brand">Buildtech</span>
+      {COMPANY.logo ? (
+        <img src={COMPANY.logo} alt={COMPANY.name} className="h-11 w-auto object-contain" />
+      ) : (
+        <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand text-white shadow-glow transition-transform group-hover:scale-105">
+          <Building2 className="h-6 w-6" strokeWidth={2.2} />
         </span>
-        <span className={`text-[10px] font-medium tracking-[0.25em] uppercase ${dark ? 'text-white/70' : 'text-ink-soft'}`}>
-          Real Estate
+      )}
+      {!COMPANY.logo && (
+        <span className="flex flex-col leading-none">
+          <span className={`font-display text-xl font-extrabold tracking-tight ${dark ? 'text-white' : 'text-ink'}`}>
+            {first} <span className="text-brand">{last}</span>
+          </span>
+          <span className={`text-[10px] font-medium tracking-[0.25em] uppercase ${dark ? 'text-white/70' : 'text-ink-soft'}`}>
+            Real Estate
+          </span>
         </span>
-      </span>
+      )}
     </Link>
   )
 }

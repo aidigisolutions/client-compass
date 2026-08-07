@@ -117,7 +117,7 @@ export default function ContactPage() {
           <div className="overflow-hidden rounded-3xl shadow-card ring-1 ring-slate-100 h-[400px]">
             <iframe
               title="ARG Buildtech Office"
-              src="https://www.google.com/maps?q=Sector%2062%20Noida&output=embed"
+              src={COMPANY.mapEmbed}
               className="h-full w-full border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

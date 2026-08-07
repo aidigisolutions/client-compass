@@ -23,14 +23,21 @@ export function Footer() {
               {COMPANY.tagline} Delivering premium residential and commercial spaces at India&apos;s finest addresses since {COMPANY.founded}.
             </p>
             <div className="flex gap-3">
-              {[Facebook, Instagram, Linkedin, Twitter].map((Icon, i) => (
+              {[
+                { Icon: Facebook, href: COMPANY.social.facebook, label: 'Facebook' },
+                { Icon: Instagram, href: COMPANY.social.instagram, label: 'Instagram' },
+                { Icon: Linkedin, href: COMPANY.social.linkedin, label: 'LinkedIn' },
+                { Icon: Twitter, href: COMPANY.social.twitter, label: 'Twitter' },
+              ].filter((s) => s.href).map(({ Icon, href, label }) => (
                 <a
-                  key={i}
-                  href="#"
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="grid h-10 w-10 place-items-center rounded-full bg-white/10 hover:bg-brand transition-colors"
-                  aria-label="Social link"
+                  aria-label={label}
                 >
-                  <Icon className="h-4.5 w-4.5" />
+                  <Icon className="h-4 w-4" />
                 </a>
               ))}
             </div>

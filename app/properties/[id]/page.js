@@ -98,6 +98,11 @@ export default function PropertyDetailsPage() {
                   <p className="mt-2 flex items-center gap-2 text-ink-light">
                     <MapPin className="h-5 w-5 text-brand" /> {p.location}
                   </p>
+                  {p.rera && (
+                    <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+                      RERA Registered &bull; {p.rera}
+                    </p>
+                  )}
                 </div>
                 <div className="rounded-2xl bg-brand-50 px-6 py-3 text-right">
                   <p className="font-display text-3xl font-extrabold text-brand-600">{p.price}</p>
@@ -129,6 +134,27 @@ export default function PropertyDetailsPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Video Walkthrough */}
+              {p.video && (
+                <div className="mt-10">
+                  <h2 className="font-display text-2xl font-bold text-ink">Video Walkthrough</h2>
+                  <div className="mt-4 aspect-video overflow-hidden rounded-3xl bg-ink ring-1 ring-slate-100">
+                    {p.video.includes('youtube.com') || p.video.includes('youtu.be') ? (
+                      <iframe
+                        title={`${p.name} video walkthrough`}
+                        src={p.video}
+                        className="h-full w-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        loading="lazy"
+                      />
+                    ) : (
+                      <video src={p.video} controls playsInline className="h-full w-full object-cover" />
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Amenities */}
               <div className="mt-10">

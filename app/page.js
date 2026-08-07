@@ -40,9 +40,20 @@ export default function HomePage() {
       {/* HERO */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          <img src={HERO_IMAGE} alt="Luxury apartment building" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/60 to-ink/30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+          <motion.img
+            src={HERO_IMAGE}
+            alt="Luxury apartment building by ARG Buildtech"
+            fetchPriority="high"
+            initial={{ scale: 1.12 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 8, ease: 'easeOut' }}
+            className="h-full w-full object-cover"
+          />
+          {/* Premium multi-layer overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/30" />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(120% 90% at 20% 30%, rgba(249,115,22,0.18), transparent 55%)' }} />
+          <div className="absolute inset-0 shadow-[inset_0_0_180px_60px_rgba(15,23,42,0.55)]" />
         </div>
 
         <div className="container relative z-10 pt-28 pb-16">
@@ -57,12 +68,20 @@ export default function HomePage() {
               India&apos;s Trusted Real Estate Developer Since {COMPANY.founded}
             </span>
 
-            <h1 className="mt-6 font-display text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] text-white text-balance">
+            <h1 className="mt-6 font-display text-[2.6rem] leading-[1.05] md:text-6xl lg:text-[4.75rem] lg:leading-[1.02] font-extrabold tracking-tight text-white text-balance drop-shadow-sm">
               Find Your Dream Home with{' '}
-              <span className="text-brand">ARG Buildtech</span>
+              <span className="relative inline-block text-brand">
+                ARG Buildtech
+                <motion.span
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute -bottom-1 left-0 h-1 w-full origin-left rounded-full bg-brand/70"
+                />
+              </span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg text-white/80 leading-relaxed">
+            <p className="mt-6 max-w-xl text-lg md:text-xl text-white/80 leading-relaxed font-light">
               Discover premium residential and commercial properties at the best locations across India&apos;s fastest-growing cities.
             </p>
 
@@ -279,7 +298,7 @@ export default function HomePage() {
               <div id="map" className="relative overflow-hidden rounded-3xl shadow-card ring-1 ring-slate-100 h-[420px]">
                 <iframe
                   title="ARG Buildtech Office Location"
-                  src="https://www.google.com/maps?q=Sector%2062%20Noida&output=embed"
+                  src={COMPANY.mapEmbed}
                   className="h-full w-full border-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"

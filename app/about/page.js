@@ -10,7 +10,7 @@ import { Footer } from '@/components/site/Footer'
 import { PageBanner } from '@/components/site/PageBanner'
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/site/Reveal'
 import { Button } from '@/components/ui/button'
-import { COMPANY, STATS } from '@/lib/data/site'
+import { COMPANY, STATS, SITE_IMAGES } from '@/lib/data/site'
 
 const VALUES = [
   { icon: Gem, title: 'Uncompromising Quality', desc: 'We build with premium materials and precision engineering, ensuring every home stands the test of time.' },
@@ -25,7 +25,7 @@ const MILESTONES = [
   { year: '2025', text: '48 projects delivered, 5,000+ happy families across 6 cities.' },
 ]
 
-const ABOUT_IMAGE = 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzOTB8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjByZWFsJTIwZXN0YXRlfGVufDB8fHx8MTc4NjA4NjAzNnww&ixlib=rb-4.1.0&q=85'
+const ABOUT_IMAGE = SITE_IMAGES.about
 
 export default function AboutPage() {
   return (
