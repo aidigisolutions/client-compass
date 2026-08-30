@@ -10,6 +10,7 @@ import { Header } from '@/components/site/Header'
 import { Footer } from '@/components/site/Footer'
 import { PropertyCard } from '@/components/site/PropertyCard'
 import { SearchBar } from '@/components/site/SearchBar'
+import { HeroSlider } from '@/components/site/HeroSlider'
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/site/Reveal'
 import { Button } from '@/components/ui/button'
 import {
@@ -39,22 +40,7 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <motion.img
-            src={HERO_IMAGE}
-            alt="Luxury apartment building by ARG Buildtech"
-            fetchPriority="high"
-            initial={{ scale: 1.12 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 8, ease: 'easeOut' }}
-            className="h-full w-full object-cover"
-          />
-          {/* Premium multi-layer overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/25" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-ink/30" />
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(120% 90% at 20% 30%, rgba(249,115,22,0.18), transparent 55%)' }} />
-          <div className="absolute inset-0 shadow-[inset_0_0_180px_60px_rgba(15,23,42,0.55)]" />
-        </div>
+        <HeroSlider />
 
         <div className="container relative z-10 pt-28 pb-16">
           <motion.div
@@ -81,20 +67,25 @@ export default function HomePage() {
               </span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg md:text-xl text-white/80 leading-relaxed font-light">
-              Discover premium residential and commercial properties at the best locations across India&apos;s fastest-growing cities.
+            <p className="mt-6 max-w-xl text-lg md:text-xl text-white/85 leading-relaxed font-light">
+              Discover premium residential and commercial properties in Delhi NCR with ARG Buildtech.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button asChild size="lg" className="rounded-full bg-brand hover:bg-brand-600 text-white font-semibold text-base h-13 px-7 shadow-glow">
+            <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
+              <Button asChild size="lg" className="rounded-full bg-brand hover:bg-brand-600 text-white font-semibold text-base h-12 px-7 shadow-glow">
                 <Link href="/properties">
-                  Explore Properties <ArrowRight className="ml-2 h-5 w-5" />
+                  Explore Projects <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-full bg-white/10 backdrop-blur border-white/30 text-white hover:bg-white hover:text-ink font-semibold text-base h-13 px-7">
+              <Button asChild size="lg" variant="outline" className="rounded-full bg-white/10 backdrop-blur border-white/30 text-white hover:bg-white hover:text-ink font-semibold text-base h-12 px-7">
                 <Link href="/book-visit">
                   <CalendarCheck className="mr-2 h-5 w-5" /> Book Site Visit
                 </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="rounded-full bg-white/10 backdrop-blur border-white/30 text-white hover:bg-white hover:text-ink font-semibold text-base h-12 px-7">
+                <a href={COMPANY.phoneHref}>
+                  <Phone className="mr-2 h-5 w-5" /> Call Now
+                </a>
               </Button>
             </div>
           </motion.div>
