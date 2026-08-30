@@ -1,16 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle2 } from 'lucide-react'
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, MessageCircle, Navigation } from 'lucide-react'
 import { Header } from '@/components/site/Header'
 import { Footer } from '@/components/site/Footer'
 import { PageBanner } from '@/components/site/PageBanner'
+import { SocialIcons } from '@/components/site/SocialIcons'
 import { Reveal } from '@/components/site/Reveal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { COMPANY } from '@/lib/data/site'
+import { COMPANY, WHATSAPP_HREF } from '@/lib/data/site'
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false)
@@ -44,6 +45,7 @@ export default function ContactPage() {
           <Reveal className="lg:col-span-2">
             <div>
               <h2 className="font-display text-2xl md:text-3xl font-extrabold text-ink">Contact Information</h2>
+              <p className="mt-1 font-display text-lg font-bold text-brand-700">{COMPANY.name}</p>
               <p className="mt-3 text-ink-light">Reach out through any of the channels below — we typically respond within a few hours.</p>
               <div className="mt-8 space-y-5">
                 {contacts.map((c) => {
@@ -64,6 +66,22 @@ export default function ContactPage() {
                     <div key={c.label}>{inner}</div>
                   )
                 })}
+              </div>
+
+              {/* Actions */}
+              <div className="mt-7 flex flex-wrap gap-3">
+                <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="inline-flex h-12 items-center gap-2 rounded-full px-6 text-sm font-semibold text-white shadow-md transition-transform hover:scale-105" style={{ backgroundColor: '#25D366' }}>
+                  <MessageCircle className="h-5 w-5" fill="currentColor" /> WhatsApp Us
+                </a>
+                <a href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(COMPANY.mapQuery)}`} target="_blank" rel="noopener noreferrer" className="inline-flex h-12 items-center gap-2 rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-ink transition-colors hover:bg-surface">
+                  <Navigation className="h-4 w-4 text-brand" /> Get Directions
+                </a>
+              </div>
+
+              {/* Social */}
+              <div className="mt-8">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-wide text-ink-soft">Follow Us</p>
+                <SocialIcons variant="onLight" dimension="h-11 w-11" icon="h-5 w-5" />
               </div>
             </div>
           </Reveal>

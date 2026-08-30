@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { Building2, Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Twitter, ArrowRight } from 'lucide-react'
-import { COMPANY, NAV_LINKS, PROPERTIES } from '@/lib/data/site'
+import { Building2, Phone, Mail, MapPin, MessageCircle, ArrowRight } from 'lucide-react'
+import { SocialIcons } from '@/components/site/SocialIcons'
+import { COMPANY, NAV_LINKS, PROPERTIES, WHATSAPP_HREF } from '@/lib/data/site'
 
 export function Footer() {
   return (
@@ -22,25 +23,7 @@ export function Footer() {
             <p className="text-white/60 text-sm leading-relaxed mb-6">
               {COMPANY.tagline} Delivering premium residential and commercial spaces at India&apos;s finest addresses since {COMPANY.founded}.
             </p>
-            <div className="flex gap-3">
-              {[
-                { Icon: Facebook, href: COMPANY.social.facebook, label: 'Facebook' },
-                { Icon: Instagram, href: COMPANY.social.instagram, label: 'Instagram' },
-                { Icon: Linkedin, href: COMPANY.social.linkedin, label: 'LinkedIn' },
-                { Icon: Twitter, href: COMPANY.social.twitter, label: 'Twitter' },
-              ].filter((s) => s.href).map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="grid h-10 w-10 place-items-center rounded-full bg-white/10 hover:bg-brand transition-colors"
-                  aria-label={label}
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
+            <SocialIcons variant="onDark" dimension="h-10 w-10" icon="h-5 w-5" />
           </div>
 
           {/* Quick Links */}
@@ -86,6 +69,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/60 transition-colors hover:text-brand">
+                  <MessageCircle className="h-5 w-5 shrink-0" style={{ color: '#25D366' }} /> WhatsApp: {COMPANY.phone}
+                </a>
+              </li>
+              <li>
                 <a href={COMPANY.emailHref} className="flex items-center gap-3 text-white/60 hover:text-brand transition-colors">
                   <Mail className="h-5 w-5 text-brand shrink-0" /> {COMPANY.email}
                 </a>
@@ -97,7 +85,7 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-white/50">
-          <p>&copy; {new Date().getFullYear()} ARG Buildtech. All rights reserved.</p>
+          <p>{COMPANY.copyright}</p>
           <p className="flex gap-6">
             <a href="#" className="hover:text-brand transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-brand transition-colors">Terms of Service</a>
