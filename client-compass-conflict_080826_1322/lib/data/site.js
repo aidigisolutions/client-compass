@@ -14,11 +14,11 @@ export const COMPANY = {
   tagline: 'Building Landmarks. Creating Homes.',
 
   // Phone (used for Call button + header)
-  phone: '+91 9220217202',
-  phoneHref: 'tel:+919220217202',
+  phone: "+91 92118 85215",
+  phoneHref: 'tel:+919211885215',
 
   // WhatsApp (digits only, with country code, for the floating WhatsApp button)
-  whatsappNumber: '919220217202',
+  whatsappNumber: '919211885215',
   whatsappMessage: 'Hi ARG Buildtech! I am interested in your properties and would like more details.',
 
   // Email
@@ -31,7 +31,8 @@ export const COMPANY = {
   hours: 'Mon - Sat: 9:00 AM - 7:00 PM',
   founded: 2009,
   rera: 'UPRERAAGT10099',
-  copyright: '\u00a9 2026 ARG Buildtech. All Rights Reserved.',
+  copyright: '\u00a9 2026 ARG Buildtech. All Rights 
+  Reserved.',
   brochure: '/brochure/arg-buildtech-brochure.pdf',
 
   // Google Map (paste your own embed query or full embed URL)
@@ -39,12 +40,12 @@ export const COMPANY = {
   mapEmbed: 'https://www.google.com/maps?q=Dwarka%20Mor%20Metro%20Station%20New%20Delhi&output=embed',
 
   // Social media links
-  social: {
-    facebook: 'https://www.facebook.com/profile.php?id=61578645151217',
-    instagram: 'https://www.instagram.com/argbuildtech/',
-    youtube: 'https://www.youtube.com/@ARGBUILDTECH',
-    whatsapp: 'https://wa.me/919220217202',
-  },
+social: {
+  facebook: 'https://www.facebook.com/share/19FUxBPxSY/',
+  instagram: 'https://www.instagram.com/argbuildtech/',
+  youtube: 'https://www.youtube.com/@ARGBUILDTECH',
+  whatsapp: 'https://wa.me/919211885215',
+},
 }
 
 export const WHATSAPP_HREF = `https://wa.me/${COMPANY.whatsappNumber}?text=${encodeURIComponent(COMPANY.whatsappMessage)}`
