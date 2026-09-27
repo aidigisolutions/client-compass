@@ -41,7 +41,7 @@ export const COMPANY = {
 
   // Social media links
 social: {
-  facebook: 'https://www.facebook.com/share/19FUxBPxSY/',
+  facebook: 'https://www.facebook.com/share/1DdXqEZ5Ne/',
   instagram: 'https://www.instagram.com/argbuildtech/',
   youtube: 'https://www.youtube.com/@ARGBUILDTECH',
   whatsapp: 'https://wa.me/919211885215',
