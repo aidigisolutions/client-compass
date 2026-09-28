@@ -31,8 +31,7 @@ export const COMPANY = {
   hours: 'Mon - Sat: 9:00 AM - 7:00 PM',
   founded: 2009,
   rera: 'UPRERAAGT10099',
-  copyright: '\u00a9 2026 ARG Buildtech. All Rights 
-  Reserved.',
+ copyright: '© 2026 ARG Buildtech. All Rights Reserved.',
   brochure: '/brochure/arg-buildtech-brochure.pdf',
 
   // Google Map (paste your own embed query or full embed URL)
