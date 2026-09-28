@@ -1,6 +1,6 @@
 'use client'
 
-import { Facebook, Instagram, Youtube, MessageCircle } from 'lucide-react'
+import { Facebook, Instagram, Youtube, MessageCircle, MapPin } from 'lucide-react'
 import { COMPANY } from '@/lib/data/site'
 
 const ITEMS = [
@@ -8,6 +8,7 @@ const ITEMS = [
   { key: 'instagram', Icon: Instagram, label: 'Instagram', color: '#E4405F' },
   { key: 'youtube', Icon: Youtube, label: 'YouTube', color: '#FF0000' },
   { key: 'whatsapp', Icon: MessageCircle, label: 'WhatsApp', color: '#25D366' },
+  { key: 'googleBusiness', Icon: MapPin, label: 'Location', color: '#EA4335' },
 ]
 
 // variant: 'onDark' (translucent light circle) | 'onLight' (subtle grey circle)

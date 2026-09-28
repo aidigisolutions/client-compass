@@ -26,24 +26,29 @@ export const COMPANY = {
   emailHref: 'argbuildtech@gmail.com',
 
   // Office address
-  address: 'ARG Buildtech, Metro Pillar No-792, Nawada housing complex C-25 Dwarka Mor, Block C, Vipin Garden, Nawada, New Delhi, Delhi, \u2013 110059, India.',
-  addressShort: 'Dwarka Mor, New Delhi \u2013 110059',
-  hours: 'Mon - Sat: 9:00 AM - 7:00 PM',
+// Office Address (NEW GMB Address)
+address: 'Nawada Housing Complex, C-36, Saturday Market Road, Near Metro Pillar No. 792, Block C, Vipin Garden, Nawada, New Delhi, Delhi 110059',
+
+addressShort: 'Nawada, Dwarka Mor, New Delhi - 110059',
+
+hours: 'Mon - Sat: 9:00 AM - 8:00 PM',
   founded: 2009,
   rera: 'UPRERAAGT10099',
   copyright: '© 2026 ARG Buildtech. All Rights Reserved.',
   brochure: '/brochure/arg-buildtech-brochure.pdf',
 
   // Google Map (paste your own embed query or full embed URL)
-  mapQuery: 'Dwarka Mor Metro Station, New Delhi',
-  mapEmbed: 'https://www.google.com/maps?q=Dwarka%20Mor%20Metro%20Station%20New%20Delhi&output=embed',
+  mapQuery: 'Nawada Housing Complex C-36 Saturday Market Road Near Metro Pillar No. 792 Block C Vipin Garden Nawada New Delhi 110059',
+  mapEmbed: 'https://share.google/JN8jH1dN1PWn3BT3k',
 
   // Social media links
 social: {
-facebook: 'https://www.facebook.com/profile.php?id=61578645151217',
+  facebook: 'https://www.facebook.com/profile.php?id=61578645151217',
   instagram: 'https://www.instagram.com/argbuildtech/',
   youtube: 'https://www.youtube.com/@ARGBUILDTECH',
   whatsapp: 'https://wa.me/919211885215',
+
+  gmb: 'https://share.google/JN8jH1dN1PWn3BT3k',
 },
 }
 
