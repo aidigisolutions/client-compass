@@ -39,7 +39,8 @@ hours: 'Mon - Sat: 9:00 AM - 8:00 PM',
 
   // Google Map (paste your own embed query or full embed URL)
   mapQuery: 'Nawada Housing Complex C-36 Saturday Market Road Near Metro Pillar No. 792 Block C Vipin Garden Nawada New Delhi 110059',
-  mapEmbed: 'https://share.google/JN8jH1dN1PWn3BT3k',
+ mapEmbed:
+  'https://www.google.com/maps?q=Nawada+Housing+Complex+C-36+Saturday+Market+Road+Near+Metro+Pillar+792+Vipin+Garden+Nawada+New+Delhi+110059&output=embed',
 
   // Social media links
 social: {
